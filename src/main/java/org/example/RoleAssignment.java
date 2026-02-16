@@ -7,4 +7,7 @@ public interface RoleAssignment {
     AssignmentMetadata metadata();
     boolean isActive();
     String assignmentType(); // "PERMANENT" или "TEMPORARY"
+
+    // Метод summary()
+    String summary();
 }
