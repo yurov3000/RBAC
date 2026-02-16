@@ -26,6 +26,7 @@ class Main {
         // Примеры правильного создания объектов
         RecPermission readUsers = new RecPermission("read", "Users", "Позволяет читать пользователей");
         RecPermission writeReports = new RecPermission("write", "REPORTS", "Позволяет создавать отчёты");
+        RecPermission writeUsers = new RecPermission("write", "Users", "Позволяет создавать и редактировать пользователей");
 
         // Вывод в нужном формате
         System.out.println(readUsers.format());
@@ -47,5 +48,12 @@ class Main {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
+
+        System.out.println(" ");
+        Role admin = new Role("Administrator", "Full system access");
+        admin.addPermission(readUsers);
+        admin.addPermission(writeUsers);
+
+        System.out.println(admin.format());
     }
 }
