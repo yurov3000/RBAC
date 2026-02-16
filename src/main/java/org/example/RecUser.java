@@ -1,9 +1,9 @@
 package org.example;
 
-public record User (String username, String fullname, String email){
+public record RecUser(String username, String fullname, String email){
     private static final String USERNAME_REGEX = "^[a-zA-Z0-9_]{3,20}$";
 
-    public static User validate(String username, String fullname, String email) throws IllegalArgumentException {
+    public static RecUser validate(String username, String fullname, String email) throws IllegalArgumentException {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Имя пользователя не должно быть пустым");
         }
@@ -17,7 +17,7 @@ public record User (String username, String fullname, String email){
             throw new IllegalArgumentException("Email введен неверным способом");
         }
 
-        return new User(username, fullname, email);
+        return new RecUser(username, fullname, email);
     }
 
     public String format(){

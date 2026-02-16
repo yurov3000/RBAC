@@ -16,11 +16,36 @@ class Main {
 
         for (var caseData : testCases){
             try{
-                var user = User.validate(caseData[0], caseData[1], caseData[2]);
+                var user = RecUser.validate(caseData[0], caseData[1], caseData[2]);
                 System.out.println(user.format());
             } catch (IllegalArgumentException e){
                 System.err.println(e.getMessage());
             }
+        }
+
+        // Примеры правильного создания объектов
+        RecPermission readUsers = new RecPermission("read", "Users", "Позволяет читать пользователей");
+        RecPermission writeReports = new RecPermission("write", "REPORTS", "Позволяет создавать отчёты");
+
+        // Вывод в нужном формате
+        System.out.println(readUsers.format());
+        System.out.println(writeReports.format());
+
+        // Проверка совпадения по шаблону
+        System.out.println(readUsers.matches("READ", "US")); // true
+        System.out.println(writeReports.matches("WRI", "REP")); // true
+
+        // Некорректные варианты создания (будут исключения):
+        try {
+            new RecPermission("", "Resource", "Description"); // Ошибка: имя права пустое
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            new RecPermission("Read Write", "Resource", "Description"); // Ошибка: имя права содержит пробел
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
