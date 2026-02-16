@@ -55,5 +55,12 @@ class Main {
         admin.addPermission(writeUsers);
 
         System.out.println(admin.format());
+
+        // Пример AssignmentMetadata
+        AssignmentMetadata meta1 = AssignmentMetadata.now("admin", "Initial setup");
+        AssignmentMetadata meta2 = AssignmentMetadata.now("john_doe", "");
+
+        System.out.println("\n" + meta1.format());
+        System.out.println("\n" + meta2.format());
     }
 }
