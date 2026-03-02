@@ -23,4 +23,5 @@ public record RecUser(String username, String fullname, String email){
     public String format(){
         return "%s (%s) <%s>".formatted(this.username,this.fullname,this.email);
     }
+
 }

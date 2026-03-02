@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public record AssignmentMetadata(String assignedBy, String assignedAt, String reason) {
 
     // Формат по умолчанию — ISO-подобный, но читаемый
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     // Статический метод для создания с текущим временем
     public static AssignmentMetadata now(String assignedBy, String reason) {
