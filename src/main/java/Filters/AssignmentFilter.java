@@ -3,7 +3,7 @@ package Filters;
 import org.example.RoleAssignment;
 
 @FunctionalInterface
-interface AssignmentFilter {
+public interface AssignmentFilter {
     boolean test(RoleAssignment assignment);
 
     // Default методы для комбинирования фильтров

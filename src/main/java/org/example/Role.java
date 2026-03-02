@@ -1,6 +1,5 @@
 package org.example;
 
-import java.security.Permission;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -53,7 +52,7 @@ public class Role {
         permissions.add(permission);
     }
 
-    public void removePermission(Permission permission) {
+    public void removePermission(RecPermission permission) {
         if (permission == null) {
             throw new IllegalArgumentException("Право не может быть null.");
         }
