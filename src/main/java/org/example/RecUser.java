@@ -11,7 +11,7 @@ public record RecUser(String username, String fullname, String email){
             throw new IllegalArgumentException("Не подходит формат имени");
         }
         if (fullname == null || fullname.isBlank()) {
-            throw new IllegalArgumentException("Имя пользователя не должно быть пустым");
+            throw new IllegalArgumentException("Полное имя не должно быть пустым");
         }
         if (email == null || email.isBlank() || !email.contains("@") || !email.contains(".") || email.indexOf('@') > email.lastIndexOf('.')) {
             throw new IllegalArgumentException("Email введен неверным способом");
