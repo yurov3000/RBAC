@@ -184,4 +184,11 @@ public class RoleManager implements Repository<Role> {
         }
         return false;
     }
+    public Role findByUserName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return null;
+        }
+        // Если у вас есть метод, возвращающий Optional<Role>:
+        return findByName(name).orElse(null);
+    }
 }

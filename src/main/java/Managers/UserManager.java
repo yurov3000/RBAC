@@ -52,9 +52,7 @@ public class UserManager implements Repository<RecUser> {
         users.clear();
     }
 
-    /**
-     * Найти пользователя по username
-     */
+    // Найти пользователя по username
     public Optional<RecUser> findByUsername(String username) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username не может быть пустым");
@@ -62,9 +60,7 @@ public class UserManager implements Repository<RecUser> {
         return findById(username);
     }
 
-    /**
-     * Найти пользователя по email
-     */
+    // Найти пользователя по email
     public Optional<RecUser> findByEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email не может быть пустым");
@@ -75,9 +71,7 @@ public class UserManager implements Repository<RecUser> {
                 .findFirst();
     }
 
-    /**
-     * Найти пользователей по фильтру
-     */
+    // Найти пользователей по фильтру
     public List<RecUser> findByFilter(UserFilter filter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -88,9 +82,7 @@ public class UserManager implements Repository<RecUser> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Найти всех пользователей с фильтрацией и сортировкой
-     */
+    // Найти всех пользователей с фильтрацией и сортировкой
     public List<RecUser> findAll(UserFilter filter, Comparator<RecUser> sorter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -105,9 +97,7 @@ public class UserManager implements Repository<RecUser> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Проверить существование пользователя по username
-     */
+    // Проверить существование пользователя по username
     public boolean exists(String username) {
         if (username == null || username.trim().isEmpty()) {
             return false;
@@ -115,9 +105,7 @@ public class UserManager implements Repository<RecUser> {
         return users.containsKey(username);
     }
 
-    /**
-     * Обновить данные пользователя
-     */
+    // Обновить данные пользователя
     public void update(String username, String newFullName, String newEmail) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username не может быть пустым");
@@ -134,5 +122,12 @@ public class UserManager implements Repository<RecUser> {
         // Создаём нового пользователя с обновлёнными данными
         RecUser updatedUser = new RecUser(username, newFullName, newEmail);
         users.put(username, updatedUser);
+    }
+
+    public RecUser findByName(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return null;
+        }
+        return findByUsername(username).orElse(null);
     }
 }
