@@ -2,9 +2,13 @@ package Commands;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.example.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Scanner;
+
+import java.lang.reflect.Field;
+import java.util.Set;
 
 class CommandTest {
     private CommandParser parser;
@@ -12,7 +16,19 @@ class CommandTest {
     private Scanner scanner;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception{
+        // ОЧИСТКА статического состояния Role
+        Field field = Role.class.getDeclaredField("usedNames");
+        field.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Set<String> usedNames = (Set<String>) field.get(null);
+        usedNames.clear();
+
+        // Сброс счётчика ID
+        Field counterField = Role.class.getDeclaredField("counter");
+        counterField.setAccessible(true);
+        counterField.setLong(null, 1);
+
         parser = new CommandParser();
         system = new RBACSystem();
         system.initialize();
