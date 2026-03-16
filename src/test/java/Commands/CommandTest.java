@@ -16,15 +16,14 @@ class CommandTest {
     private Scanner scanner;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {  // ← важно: throws Exception
         // ОЧИСТКА статического состояния Role
         Field field = Role.class.getDeclaredField("usedNames");
         field.setAccessible(true);
         @SuppressWarnings("unchecked")
         Set<String> usedNames = (Set<String>) field.get(null);
         usedNames.clear();
-
-        // Сброс счётчика ID
+        // Сброс счётчика ID (опционально, но полезно)
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
         counterField.setLong(null, 1);
@@ -34,7 +33,7 @@ class CommandTest {
         system.initialize();
         scanner = new Scanner(System.in);
         CommandRegistry.registerAllCommands(parser, system);
-    }
+        }
 
     @Test
     void testRegisterCommand() {

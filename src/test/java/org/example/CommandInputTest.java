@@ -17,7 +17,7 @@ class CommandInputTest {
     private RBACSystem system;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {  // ← важно: throws Exception
         // ОЧИСТКА статического состояния Role
         Field field = Role.class.getDeclaredField("usedNames");
         field.setAccessible(true);
