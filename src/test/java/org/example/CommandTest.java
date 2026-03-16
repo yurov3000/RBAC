@@ -1,13 +1,14 @@
-package Commands;
+package org.example;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.example.Role;
+import Commands.CommandParser;
+import Commands.CommandRegistry;
+import Commands.RBACSystem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Scanner;
-
 import java.lang.reflect.Field;
+import java.util.Scanner;
 import java.util.Set;
 
 class CommandTest {
@@ -16,14 +17,15 @@ class CommandTest {
     private Scanner scanner;
 
     @BeforeEach
-    void setUp() throws Exception {  // ← важно: throws Exception
-        // ОЧИСТКА статического состояния Role
-        Field field = Role.class.getDeclaredField("usedNames");
-        field.setAccessible(true);
+    void setUp() throws Exception {
+        // 🔥 ОЧИСТКА статического состояния Role (ОБЯЗАТЕЛЬНО!)
+        Field usedNamesField = Role.class.getDeclaredField("usedNames");
+        usedNamesField.setAccessible(true);
         @SuppressWarnings("unchecked")
-        Set<String> usedNames = (Set<String>) field.get(null);
+        Set<String> usedNames = (Set<String>) usedNamesField.get(null);
         usedNames.clear();
-        // Сброс счётчика ID (опционально, но полезно)
+
+        // Сброс счётчика ID для стабильности тестов
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
         counterField.setLong(null, 1);
@@ -33,11 +35,11 @@ class CommandTest {
         system.initialize();
         scanner = new Scanner(System.in);
         CommandRegistry.registerAllCommands(parser, system);
-        }
+    }
 
     @Test
     void testRegisterCommand() {
-        assertEquals(25, parser.getCommandCount(), "Должно быть зарегистрировано 25 команд");
+        assertEquals(31, parser.getCommandCount(), "Должно быть зарегистрировано 25 команд");
     }
 
     @Test

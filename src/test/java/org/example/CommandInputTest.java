@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Scanner;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandInputTest {
@@ -17,22 +16,22 @@ class CommandInputTest {
     private RBACSystem system;
 
     @BeforeEach
-    void setUp() throws Exception {  // ← важно: throws Exception
-        // ОЧИСТКА статического состояния Role
-        Field field = Role.class.getDeclaredField("usedNames");
-        field.setAccessible(true);
+    void setUp() throws Exception {
+        // 🔥 ОЧИСТКА статического состояния Role (ОБЯЗАТЕЛЬНО!)
+        Field usedNamesField = Role.class.getDeclaredField("usedNames");
+        usedNamesField.setAccessible(true);
         @SuppressWarnings("unchecked")
-        Set<String> usedNames = (Set<String>) field.get(null);
+        Set<String> usedNames = (Set<String>) usedNamesField.get(null);
         usedNames.clear();
 
-        // Сброс счётчика ID
+        // Сброс счётчика ID для стабильности
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
         counterField.setLong(null, 1);
 
         parser = new CommandParser();
         system = new RBACSystem();
-        system.initialize();
+        system.initialize();  // Теперь создаст "Admin" без ошибки
         CommandRegistry.registerAllCommands(parser, system);
     }
 
@@ -45,7 +44,7 @@ class CommandInputTest {
 
     @Test
     void testRoleViewWithInput() {
-        String input = "Administrator\n";
+        String input = "Admin\n";  // ← Внимание: роль называется "Admin", не "Administrator"
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
         assertDoesNotThrow(() -> parser.executeCommand("role-view", scanner, system));
     }
