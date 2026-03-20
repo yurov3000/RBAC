@@ -30,7 +30,7 @@ class ValidationUtilsTest {
     void testValidEmail() {
         assertTrue(ValidationUtils.isValidEmail("user@example.com"));
         assertTrue(ValidationUtils.isValidEmail("test.user+tag@sub.domain.co.uk"));
-        assertTrue(ValidationUtils.isValidEmail("a@b.co")); // минимальный валидный
+        assertTrue(ValidationUtils.isValidEmail("a@b.co"));
     }
 
     @Test

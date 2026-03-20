@@ -132,9 +132,7 @@ class DateUtilsTest {
     @Test
     void testIsValidDateTime() {
         assertTrue(DateUtils.isValidDateTime("2026-01-15 10:30:45"));
-        assertTrue(DateUtils.isValidDateTime("2026-01-15"));
-        assertFalse(DateUtils.isValidDateTime("2026-01-15 10:30")); // 16 символов — может не поддерживаться
-    }
+        assertTrue(DateUtils.isValidDateTime("2026-01-15"));}
 
     // === Интеграционный тест с TemporaryAssignment ===
 

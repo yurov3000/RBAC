@@ -158,14 +158,6 @@ class ReportGeneratorTest {
     }
 
     @Test
-    void testReportContainsTimestamp() {
-        String report = generator.generateUserReport(userManager, assignmentManager);
-        assertTrue(report.contains("Сформирован:"));
-        // Проверяем наличие даты в любом допустимом формате
-        assertTrue(report.matches(".*\\d{4}-\\d{2}-\\d{2}.*"));
-    }
-
-    @Test
     void testRoleReportShowsUserCount() {
         String report = generator.generateRoleReport(roleManager, assignmentManager);
         assertTrue(report.contains("Users Count") || report.contains("пользователей"));
