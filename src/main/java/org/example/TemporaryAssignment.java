@@ -53,8 +53,8 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
 
     @Override
     public boolean isActive() {
-        String now = LocalDateTime.now().format(FORMATTER);
-        return isActive(now);
+        // Используем DateUtils для сравнения
+        return !DateUtils.isAfter(getCurrentReferenceDate(), expiresAt);
     }
 
     private String normalizeDateTime(String dateTime) {
@@ -102,39 +102,28 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
         this.autoRenew = autoRenew;
     }
 
-    public String getTimeRemaining() {
-        try {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime expire = LocalDateTime.parse(normalizeDateTime(expiresAt), FORMATTER);
-
-            if (!isActive()) {
-                return "expired";
-            }
-
-            long days = java.time.temporal.ChronoUnit.DAYS.between(now, expire);
-            long hours = java.time.temporal.ChronoUnit.HOURS.between(now, expire) % 24;
-
-            if (days > 0) {
-                return days + " day(s) left";
-            } else if (hours > 0) {
-                return hours + " hour(s) left";
-            } else {
-                return "less than 1 hour left";
-            }
-        } catch (Exception e) {
-            return "unknown";
-        }
+    protected String getCurrentReferenceDate() {
+        return DateUtils.getCurrentDate();
     }
+
+    public String getTimeRemaining() {
+        if (!isActive()) {
+            return "expired";
+        }
+        return DateUtils.formatRelativeTime(expiresAt);
+    }
+
 
     @Override
     public String summary() {
         String status = isActive() ? "ACTIVE" : "EXPIRED";
+        String relativeTime = DateUtils.formatRelativeTime(expiresAt);
         String reasonLine = (metadata().reason() != null && !metadata().reason().trim().isEmpty())
                 ? "\nReason: " + metadata().reason()
                 : "";
 
         return String.format(
-                "[%s] %s assigned to %s by %s at %s%s\nStatus: %s\nExpires at: %s",
+                "[%s] %s assigned to %s by %s at %s%s\nStatus: %s (%s)\nExpires at: %s",
                 assignmentType(),
                 role().getName(),
                 user().username(),
@@ -142,6 +131,7 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
                 metadata().assignedAt(),
                 reasonLine,
                 status,
+                relativeTime,
                 expiresAt
         );
     }

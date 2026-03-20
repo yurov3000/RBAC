@@ -514,6 +514,20 @@ public class CommandRegistry {
                         a.isActive() ? "ACTIVE" : "INACTIVE",
                         a.metadata().assignedAt());
             }
+            // Пример отображения относительного времени
+            for (var a : assignments) {
+                String relativeTime = "";
+                if (a instanceof TemporaryAssignment temp) {
+                    relativeTime = " (" + DateUtils.formatRelativeTime(temp.getExpiresAt()) + ")";
+                }
+                System.out.printf("%-15s %-20s %-15s %-10s %-20s%s%n",
+                        a.user().username(),
+                        a.role().getName(),
+                        a.assignmentType(),
+                        a.isActive() ? "ACTIVE" : "INACTIVE",
+                        a.metadata().assignedAt(),
+                        relativeTime);
+            }
         });
 
         // assignment-list-user
