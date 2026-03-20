@@ -12,11 +12,13 @@ public class RBACSystem {
     private final RoleManager roleManager;
     private final AssignmentManager assignmentManager;
     private String currentUser;
+    private final AuditLog auditLog;
 
     public RBACSystem() {
         this.userManager = new UserManager();
         this.roleManager = new RoleManager();
         this.assignmentManager = new AssignmentManager();
+        this.auditLog = new AuditLog();
         this.currentUser = null;
     }
 
@@ -35,6 +37,10 @@ public class RBACSystem {
 
     public String getCurrentUser() {
         return currentUser;
+    }
+
+    public AuditLog getAuditLog() {
+        return auditLog;
     }
 
     public void setCurrentUser(String username) {
@@ -95,6 +101,9 @@ public class RBACSystem {
         // 5. Устанавливаем текущего пользователя
         setCurrentUser("admin");
 
+        // Логирование инициализации
+        auditLog.log("SYSTEM_INIT", "system", "RBAC", "Система инициализирована");
+
         System.out.println("Система инициализирована успешно!");
         System.out.println(generateStatistics());
     }
@@ -106,6 +115,7 @@ public class RBACSystem {
         sb.append("Пользователей: ").append(userManager.count()).append("\n");
         sb.append("Ролей: ").append(roleManager.count()).append("\n");
         sb.append("Назначений: ").append(assignmentManager.count()).append("\n");
+        sb.append("Записей в аудите: ").append(auditLog.count()).append("\n");
         sb.append("Активных назначений: ").append(assignmentManager.getActiveAssignments().size()).append("\n");
         sb.append("Просроченных назначений: ").append(assignmentManager.getExpiredAssignments().size()).append("\n");
         sb.append("Текущий пользователь: ").append(currentUser != null ? currentUser : "не авторизован").append("\n");

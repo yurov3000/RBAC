@@ -47,9 +47,18 @@ public class CommandRegistry {
             try {
                 RecUser user = RecUser.validate(username, fullname, email);
                 sys.getUserManager().add(user);
-                System.out.println("Пользователь создан: " + user.format());
+                // Логирование
+                sys.getAuditLog().log("USER_CREATE",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Fullname: " + fullname + ", Email: " + email);
+                System.out.println("✓ Пользователь создан: " + user.format());
             } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("✗ Ошибка: " + e.getMessage());
+                sys.getAuditLog().log("USER_CREATE_FAILED",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Ошибка: " + e.getMessage());
             }
         });
 
@@ -115,6 +124,10 @@ public class CommandRegistry {
             RecUser user = sys.getUserManager().findByName(username);
             if (user == null) {
                 System.out.println("Пользователь не найден");
+                sys.getAuditLog().log("USER_DELETE_FAILED",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Пользователь не найден");
                 return;
             }
             System.out.print("Вы уверены? Введите 'да' для подтверждения: ");
@@ -123,12 +136,16 @@ public class CommandRegistry {
                 System.out.println("Удаление отменено");
                 return;
             }
-            // Удалить все назначения
             var assignments = sys.getAssignmentManager().findByUser(user);
             for (var a : assignments) {
                 sys.getAssignmentManager().remove(a);
             }
             sys.getUserManager().remove(user);
+            // Логирование
+            sys.getAuditLog().log("USER_DELETE",
+                    sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                    username,
+                    "Пользователь удалён");
             System.out.println("✓ Пользователь удалён");
         });
 
@@ -372,7 +389,7 @@ public class CommandRegistry {
     // === КОМАНДЫ УПРАВЛЕНИЯ НАЗНАЧЕНИЯМИ ===
 
     private static void registerAssignmentCommands(CommandParser parser, RBACSystem system) {
-        // assign-role
+        // assign-role с логированием
         parser.registerCommand("assign-role", "Назначить роль пользователю", (scanner, sys) -> {
             System.out.print("Username: ");
             String username = scanner.nextLine().trim();
@@ -409,13 +426,22 @@ public class CommandRegistry {
                     PermanentAssignment assign = new PermanentAssignment(user, role, meta);
                     sys.getAssignmentManager().add(assign);
                 }
+                // Логирование
+                sys.getAuditLog().log("ROLE_ASSIGN",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Роль: " + role.getName() + ", Тип: " + type);
                 System.out.println("✓ Роль назначена");
             } catch (IllegalArgumentException e) {
                 System.out.println("✗ Ошибка: " + e.getMessage());
+                sys.getAuditLog().log("ROLE_ASSIGN_FAILED",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Ошибка: " + e.getMessage());
             }
         });
 
-        // revoke-role
+        // revoke-role с логированием
         parser.registerCommand("revoke-role", "Отозвать роль у пользователя", (scanner, sys) -> {
             System.out.print("Username: ");
             String username = scanner.nextLine().trim();
@@ -445,9 +471,14 @@ public class CommandRegistry {
             RoleAssignment selected = assignments.get(num - 1);
             if (selected instanceof PermanentAssignment perm) {
                 perm.revoke();
-                System.out.println("✓ Роль отозвана");
+                // Логирование
+                sys.getAuditLog().log("ROLE_REVOKE",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        username,
+                        "Роль: " + selected.role().getName());
+                System.out.println("Роль отозвана");
             } else {
-                System.out.println("⚠ Временные назначения не отзывются, только истекают");
+                System.out.println("Временные назначения не отзывются, только истекают");
             }
         });
 
@@ -669,6 +700,59 @@ public class CommandRegistry {
             System.out.print("\033[H\033[2J");
             System.out.flush();
             System.out.println("Экран очищен");
+        });
+
+        // audit-log
+        parser.registerCommand("audit-log", "Просмотр лога аудита", (scanner, sys) -> {
+            System.out.println("\n=== Меню лога аудита ===");
+            System.out.println("1. Показать все записи");
+            System.out.println("2. Фильтр по исполнителю");
+            System.out.println("3. Фильтр по действию");
+            System.out.println("4. Сохранить в файл");
+            System.out.println("5. Загрузить из файла");
+            System.out.print("Выберите опцию (1-5): ");
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1" -> sys.getAuditLog().printLog();
+                case "2" -> {
+                    System.out.print("Исполнитель: ");
+                    String performer = scanner.nextLine().trim();
+                    var entries = sys.getAuditLog().getByPerformer(performer);
+                    if (entries.isEmpty()) {
+                        System.out.println("Записей не найдено");
+                    } else {
+                        System.out.println("Найдено записей: " + entries.size());
+                        for (var e : entries) {
+                            System.out.println("  " + e.format());
+                        }
+                    }
+                }
+                case "3" -> {
+                    System.out.print("Действие: ");
+                    String action = scanner.nextLine().trim();
+                    var entries = sys.getAuditLog().getByAction(action);
+                    if (entries.isEmpty()) {
+                        System.out.println("Записей не найдено");
+                    } else {
+                        System.out.println("Найдено записей: " + entries.size());
+                        for (var e : entries) {
+                            System.out.println("  " + e.format());
+                        }
+                    }
+                }
+                case "4" -> {
+                    System.out.print("Имя файла: ");
+                    String filename = scanner.nextLine().trim();
+                    sys.getAuditLog().saveToFile(filename);
+                }
+                case "5" -> {
+                    System.out.print("Имя файла: ");
+                    String filename = scanner.nextLine().trim();
+                    sys.getAuditLog().loadFromFile(filename);
+                }
+                default -> System.out.println("Неверный выбор");
+            }
         });
 
         // exit

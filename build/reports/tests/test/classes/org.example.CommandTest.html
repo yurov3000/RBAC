@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.258s</div>
+<div class="counter">0.400s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,72 +79,72 @@
 </thead>
 <tr>
 <td class="success">testAssignmentListCommand()</td>
-<td class="success">0.008s</td>
+<td class="success">0.019s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testCommandCaseInsensitive()</td>
-<td class="success">0.004s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testHasCommand()</td>
-<td class="success">0.063s</td>
+<td class="success">0.100s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testHelpCommand()</td>
-<td class="success">0.009s</td>
+<td class="success">0.037s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testParseAndExecuteEmptyInput()</td>
-<td class="success">0.012s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testParseAndExecuteUnknownCommand()</td>
-<td class="success">0.012s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testPermissionsUserCommand()</td>
-<td class="success">0.012s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testPrintHelp()</td>
-<td class="success">0.031s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testRegisterCommand()</td>
 <td class="success">0.015s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">testPermissionsUserCommand()</td>
+<td class="success">0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testPrintHelp()</td>
+<td class="success">0.051s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testRegisterCommand()</td>
+<td class="success">0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testRegisterCommandNullCommand()</td>
-<td class="success">0.011s</td>
+<td class="success">0.018s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testRegisterCommandNullName()</td>
-<td class="success">0.017s</td>
+<td class="success">0.016s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testRoleListCommand()</td>
-<td class="success">0.014s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testStatsCommand()</td>
-<td class="success">0.036s</td>
+<td class="success">0.053s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testUserListCommand()</td>
-<td class="success">0.014s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -158,6 +158,7 @@
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -168,6 +169,7 @@
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -184,6 +186,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -220,6 +223,7 @@ admin                System Administrator      admin@system.local
   exit                   — Выход из программы
   assignment-expired     — Истёкшие временные назначения
   role-remove-permission — Удалить право из роли
+  audit-log              — Просмотр лога аудита
   assignment-extend      — Продлить временное назначение
 
 === Инициализация RBAC-системы ===
@@ -228,6 +232,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -238,6 +243,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -250,6 +256,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -261,6 +268,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -271,6 +279,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -281,6 +290,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -290,6 +300,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -305,6 +316,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -315,6 +327,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -325,6 +338,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -342,6 +356,7 @@ Admin                7               role_1
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -350,13 +365,14 @@ Admin                7               role_1
 === Назначения ===
 User            Role                 Type            Status     Assigned At         
 ================================================================================
-admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56:39 
+admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14:31 
 === Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -393,6 +409,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56
   exit                   — Выход из программы
   assignment-expired     — Истёкшие временные назначения
   role-remove-permission — Удалить право из роли
+  audit-log              — Просмотр лога аудита
   assignment-extend      — Продлить временное назначение
 
 </pre>
@@ -407,7 +424,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.1.0</a> at 20 мар. 2026 г., 21:56:39</p>
+<a href="https://www.gradle.org">Gradle 9.1.0</a> at 20 мар. 2026 г., 22:14:31</p>
 </div>
 </div>
 </body>

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-20T14:56:39.437Z" hostname="localhost.localdomain" time="0.29">
+<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-20T15:14:31.158Z" hostname="localhost.localdomain" time="0.443">
   <properties/>
-  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.063"/>
-  <testcase name="testUserListCommand()" classname="org.example.CommandTest" time="0.014"/>
-  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.031"/>
-  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.004"/>
-  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.012"/>
-  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.012"/>
-  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.017"/>
-  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.015"/>
-  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.036"/>
-  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.011"/>
-  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.012"/>
-  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.014"/>
-  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.008"/>
-  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.009"/>
+  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.1"/>
+  <testcase name="testUserListCommand()" classname="org.example.CommandTest" time="0.02"/>
+  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.051"/>
+  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.014"/>
+  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.015"/>
+  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.019"/>
+  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.016"/>
+  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.019"/>
+  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.053"/>
+  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.018"/>
+  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.008"/>
+  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.011"/>
+  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.019"/>
+  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.037"/>
   <system-out><![CDATA[=== Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -31,6 +32,7 @@
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -47,6 +49,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -83,6 +86,7 @@ admin                System Administrator      admin@system.local
   exit                   — Выход из программы
   assignment-expired     — Истёкшие временные назначения
   role-remove-permission — Удалить право из роли
+  audit-log              — Просмотр лога аудита
   assignment-extend      — Продлить временное назначение
 
 === Инициализация RBAC-системы ===
@@ -91,6 +95,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -101,6 +106,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -113,6 +119,7 @@ admin                System Administrator      admin@system.local
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -124,6 +131,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -134,6 +142,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -144,6 +153,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -153,6 +163,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -168,6 +179,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -178,6 +190,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -188,6 +201,7 @@ Username: Ошибка выполнения команды: No line found
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -205,6 +219,7 @@ Admin                7               role_1
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -213,13 +228,14 @@ Admin                7               role_1
 === Назначения ===
 User            Role                 Type            Status     Assigned At         
 ================================================================================
-admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56:39 
+admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14:31 
 === Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
 Пользователей: 1
 Ролей: 3
 Назначений: 1
+Записей в аудите: 1
 Активных назначений: 1
 Просроченных назначений: 0
 Текущий пользователь: admin
@@ -256,6 +272,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56
   exit                   — Выход из программы
   assignment-expired     — Истёкшие временные назначения
   role-remove-permission — Удалить право из роли
+  audit-log              — Просмотр лога аудита
   assignment-extend      — Продлить временное назначение
 
 ]]></system-out>
