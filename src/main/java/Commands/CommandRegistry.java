@@ -702,6 +702,51 @@ public class CommandRegistry {
             System.out.println("Экран очищен");
         });
 
+        // report-users
+        parser.registerCommand("report-users", "Отчёт по пользователям с ролями", (scanner, sys) -> {
+            ReportGenerator generator = new ReportGenerator();
+            String report = generator.generateUserReport(sys.getUserManager(), sys.getAssignmentManager());
+            System.out.println(report);
+
+            System.out.print("Сохранить в файл? (да/нет): ");
+            String save = scanner.nextLine().trim();
+            if ("да".equalsIgnoreCase(save)) {
+                System.out.print("Имя файла: ");
+                String filename = scanner.nextLine().trim();
+                generator.exportToFile(report, filename);
+            }
+        });
+
+// report-roles
+        parser.registerCommand("report-roles", "Отчёт по ролям с количеством пользователей", (scanner, sys) -> {
+            ReportGenerator generator = new ReportGenerator();
+            String report = generator.generateRoleReport(sys.getRoleManager(), sys.getAssignmentManager());
+            System.out.println(report);
+
+            System.out.print("Сохранить в файл? (да/нет): ");
+            String save = scanner.nextLine().trim();
+            if ("да".equalsIgnoreCase(save)) {
+                System.out.print("Имя файла: ");
+                String filename = scanner.nextLine().trim();
+                generator.exportToFile(report, filename);
+            }
+        });
+
+// report-matrix
+        parser.registerCommand("report-matrix", "Матрица прав доступа (пользователи × ресурсы)", (scanner, sys) -> {
+            ReportGenerator generator = new ReportGenerator();
+            String report = generator.generatePermissionMatrix(sys.getUserManager(), sys.getAssignmentManager());
+            System.out.println(report);
+
+            System.out.print("Сохранить в файл? (да/нет): ");
+            String save = scanner.nextLine().trim();
+            if ("да".equalsIgnoreCase(save)) {
+                System.out.print("Имя файла: ");
+                String filename = scanner.nextLine().trim();
+                generator.exportToFile(report, filename);
+            }
+        });
+
         // audit-log
         parser.registerCommand("audit-log", "Просмотр лога аудита", (scanner, sys) -> {
             System.out.println("\n=== Меню лога аудита ===");

@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.400s</div>
+<div class="counter">0.290s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,72 +79,72 @@
 </thead>
 <tr>
 <td class="success">testAssignmentListCommand()</td>
-<td class="success">0.019s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testCommandCaseInsensitive()</td>
-<td class="success">0.014s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testHasCommand()</td>
-<td class="success">0.100s</td>
+<td class="success">0.101s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testHelpCommand()</td>
-<td class="success">0.037s</td>
+<td class="success">0.022s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testParseAndExecuteEmptyInput()</td>
-<td class="success">0.008s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testParseAndExecuteUnknownCommand()</td>
-<td class="success">0.015s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testPermissionsUserCommand()</td>
-<td class="success">0.019s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testPrintHelp()</td>
-<td class="success">0.051s</td>
+<td class="success">0.028s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testRegisterCommand()</td>
-<td class="success">0.019s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testRegisterCommandNullCommand()</td>
-<td class="success">0.018s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testRegisterCommandNullName()</td>
-<td class="success">0.016s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testRoleListCommand()</td>
 <td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">testRegisterCommandNullCommand()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testRegisterCommandNullName()</td>
+<td class="success">0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testRoleListCommand()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testStatsCommand()</td>
-<td class="success">0.053s</td>
+<td class="success">0.035s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testUserListCommand()</td>
-<td class="success">0.020s</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -193,6 +193,7 @@ admin                System Administrator      admin@system.local
 
 
 === Доступные команды ===
+  report-users           — Отчёт по пользователям с ролями
   user-delete            — Удалить пользователя
   role-search            — Поиск ролей
   assignment-list        — Список всех назначений
@@ -214,7 +215,9 @@ admin                System Administrator      admin@system.local
   assignment-search      — Поиск назначений по фильтрам
   revoke-role            — Отозвать роль у пользователя
   permissions-user       — Все права конкретного пользователя
+  report-roles           — Отчёт по ролям с количеством пользователей
   role-delete            — Удалить роль
+  report-matrix          — Матрица прав доступа (пользователи × ресурсы)
   clear                  — Очистить экран
   role-add-permission    — Добавить право к роли
   assignment-active      — Только активные назначения
@@ -365,7 +368,7 @@ Admin                7               role_1
 === Назначения ===
 User            Role                 Type            Status     Assigned At         
 ================================================================================
-admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14:31 
+admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:23:20 
 === Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
@@ -379,6 +382,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14
 
 
 === Доступные команды ===
+  report-users           — Отчёт по пользователям с ролями
   user-delete            — Удалить пользователя
   role-search            — Поиск ролей
   assignment-list        — Список всех назначений
@@ -400,7 +404,9 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14
   assignment-search      — Поиск назначений по фильтрам
   revoke-role            — Отозвать роль у пользователя
   permissions-user       — Все права конкретного пользователя
+  report-roles           — Отчёт по ролям с количеством пользователей
   role-delete            — Удалить роль
+  report-matrix          — Матрица прав доступа (пользователи × ресурсы)
   clear                  — Очистить экран
   role-add-permission    — Добавить право к роли
   assignment-active      — Только активные назначения
@@ -424,7 +430,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.1.0</a> at 20 мар. 2026 г., 22:14:31</p>
+<a href="https://www.gradle.org">Gradle 9.1.0</a> at 20 мар. 2026 г., 22:23:20</p>
 </div>
 </div>
 </body>

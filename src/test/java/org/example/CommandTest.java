@@ -39,7 +39,7 @@ class CommandTest {
 
     @Test
     void testRegisterCommand() {
-        assertEquals(32, parser.getCommandCount(), "Должно быть зарегистрировано 32 команд");
+        assertEquals(35, parser.getCommandCount(), "Должно быть зарегистрировано 35 команд");
     }
 
     @Test

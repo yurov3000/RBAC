@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-20T15:14:31.158Z" hostname="localhost.localdomain" time="0.443">
+<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-20T15:23:20.260Z" hostname="localhost.localdomain" time="0.322">
   <properties/>
-  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.1"/>
-  <testcase name="testUserListCommand()" classname="org.example.CommandTest" time="0.02"/>
-  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.051"/>
-  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.014"/>
-  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.015"/>
-  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.019"/>
-  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.016"/>
-  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.019"/>
-  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.053"/>
-  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.018"/>
-  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.008"/>
-  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.011"/>
-  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.019"/>
-  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.037"/>
+  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.101"/>
+  <testcase name="testUserListCommand()" classname="org.example.CommandTest" time="0.017"/>
+  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.028"/>
+  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.004"/>
+  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.012"/>
+  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.014"/>
+  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.019"/>
+  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.011"/>
+  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.035"/>
+  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.005"/>
+  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.006"/>
+  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.007"/>
+  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.009"/>
+  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.022"/>
   <system-out><![CDATA[=== Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
@@ -56,6 +56,7 @@ admin                System Administrator      admin@system.local
 
 
 === Доступные команды ===
+  report-users           — Отчёт по пользователям с ролями
   user-delete            — Удалить пользователя
   role-search            — Поиск ролей
   assignment-list        — Список всех назначений
@@ -77,7 +78,9 @@ admin                System Administrator      admin@system.local
   assignment-search      — Поиск назначений по фильтрам
   revoke-role            — Отозвать роль у пользователя
   permissions-user       — Все права конкретного пользователя
+  report-roles           — Отчёт по ролям с количеством пользователей
   role-delete            — Удалить роль
+  report-matrix          — Матрица прав доступа (пользователи × ресурсы)
   clear                  — Очистить экран
   role-add-permission    — Добавить право к роли
   assignment-active      — Только активные назначения
@@ -228,7 +231,7 @@ Admin                7               role_1
 === Назначения ===
 User            Role                 Type            Status     Assigned At         
 ================================================================================
-admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14:31 
+admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:23:20 
 === Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
@@ -242,6 +245,7 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14
 
 
 === Доступные команды ===
+  report-users           — Отчёт по пользователям с ролями
   user-delete            — Удалить пользователя
   role-search            — Поиск ролей
   assignment-list        — Список всех назначений
@@ -263,7 +267,9 @@ admin           Admin                PERMANENT       ACTIVE     2026-03-20 22:14
   assignment-search      — Поиск назначений по фильтрам
   revoke-role            — Отозвать роль у пользователя
   permissions-user       — Все права конкретного пользователя
+  report-roles           — Отчёт по ролям с количеством пользователей
   role-delete            — Удалить роль
+  report-matrix          — Матрица прав доступа (пользователи × ресурсы)
   clear                  — Очистить экран
   role-add-permission    — Добавить право к роли
   assignment-active      — Только активные назначения
