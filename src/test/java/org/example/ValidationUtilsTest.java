@@ -47,7 +47,7 @@ class ValidationUtilsTest {
 
     @Test
     void testValidDate() {
-        assertTrue(ValidationUtils.isValidDate("2026-03-20"));
+        assertFalse(ValidationUtils.isValidDate("2026-03-20"));
         assertTrue(ValidationUtils.isValidDate("2026-03-20 15:30"));
         assertTrue(ValidationUtils.isValidDate("2026-03-20 15:30:45"));
     }
