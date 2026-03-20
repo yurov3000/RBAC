@@ -100,9 +100,6 @@ public class DateUtils {
         }
     }
 
-    /**
-     * Нормализация даты до формата "YYYY-MM-DD" для сравнения
-     */
     private static String normalizeDate(String date) {
         if (date == null) {
             throw new IllegalArgumentException("Дата не может быть null");
@@ -120,9 +117,6 @@ public class DateUtils {
         throw new IllegalArgumentException("Неподдерживаемый формат даты: " + date);
     }
 
-    /**
-     * Проверка, что дата в валидном формате
-     */
     public static boolean isValidDate(String date) {
         if (date == null || date.trim().isEmpty()) {
             return false;
@@ -136,22 +130,17 @@ public class DateUtils {
         }
     }
 
-    /**
-     * Проверка, что дата и время в валидном формате
-     */
     public static boolean isValidDateTime(String dateTime) {
-        if (dateTime == null || dateTime.trim().isEmpty()) {
-            return false;
-        }
+        if (dateTime == null || dateTime.trim().isEmpty()) return false;
         try {
             String trimmed = dateTime.trim();
+            // Поддерживаем 3 формата
             if (trimmed.length() == 10) {
-                LocalDate.parse(trimmed, DATE_FORMATTER);
-            } else if (trimmed.length() == 19) {
-                LocalDateTime.parse(trimmed, DATETIME_FORMATTER);
+                LocalDate.parse(trimmed, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             } else if (trimmed.length() == 16) {
-                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                LocalDateTime.parse(trimmed, fmt);
+                LocalDateTime.parse(trimmed, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            } else if (trimmed.length() == 19) {
+                LocalDateTime.parse(trimmed, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             } else {
                 return false;
             }

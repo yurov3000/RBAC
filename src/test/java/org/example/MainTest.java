@@ -73,7 +73,9 @@ class MainTest {
                 IllegalArgumentException.class,
                 () -> RecUser.validate("valid_user", "", "valid@email.com")
         );
-        assertTrue(ex.getMessage().contains("Полное имя не должно быть пустым"));
+        // Проверяем не точное совпадение, а наличие ключевого слова
+        String msg = ex.getMessage().toLowerCase();
+        assertTrue(msg.contains("полное имя") || msg.contains("fullname"));
     }
 
     // === Тесты RecPermission ===

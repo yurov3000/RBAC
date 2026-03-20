@@ -40,17 +40,23 @@ public class ValidationUtils {
 
     //Проверка формата даты
     public static boolean isValidDate(String date) {
-        if (date == null || date.trim().isEmpty()) {
-            return false;
-        }
+        if (date == null || date.trim().isEmpty()) return false;
         String trimmed = date.trim();
-        for (DateTimeFormatter formatter : DATE_FORMATTERS) {
+
+        // Поддерживаемые форматы
+        DateTimeFormatter[] formatters = {
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
+                DateTimeFormatter.ISO_LOCAL_DATE,
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME
+        };
+
+        for (DateTimeFormatter formatter : formatters) {
             try {
                 LocalDateTime.parse(trimmed, formatter);
                 return true;
-            } catch (DateTimeParseException ignored) {
-                // пробуем следующий формат
-            }
+            } catch (DateTimeParseException ignored) {}
         }
         return false;
     }
