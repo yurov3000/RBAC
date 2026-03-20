@@ -5,23 +5,41 @@ import java.time.format.DateTimeFormatter;
 
 public record AssignmentMetadata(String assignedBy, String assignedAt, String reason) {
 
-    // Формат по умолчанию — ISO-подобный, но читаемый
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // Статический метод для создания с текущим временем
     public static AssignmentMetadata now(String assignedBy, String reason) {
-        if (assignedBy == null || assignedBy.trim().isEmpty()) {
-            throw new IllegalArgumentException("assignedBy не может быть пустым");
-        }
-        String now = LocalDateTime.now().format(FORMATTER);
-        return new AssignmentMetadata(assignedBy, now, reason);
+        ValidationUtils.requireNonEmpty(assignedBy, "assignedBy");
+
+        String normalizedBy = ValidationUtils.normalizeString(assignedBy);
+        String normalizedReason = ValidationUtils.normalizeString(reason);
+        String timestamp = LocalDateTime.now().format(FORMATTER);
+
+        return new AssignmentMetadata(normalizedBy, timestamp, normalizedReason);
     }
 
-    // Форматированный вывод
-    public String format() {
-        if (reason == null || reason.trim().isEmpty()) {
-            return "Assigned by %s at %s (no reason provided)".formatted(assignedBy, assignedAt);
+    // Конструктор с валидацией даты
+    public static AssignmentMetadata create(String assignedBy, String assignedAt, String reason) {
+        ValidationUtils.requireNonEmpty(assignedBy, "assignedBy");
+        if (!ValidationUtils.isValidDate(assignedAt)) {
+            throw new IllegalArgumentException("Неверный формат даты: " + assignedAt);
         }
-        return "Assigned by %s at %s\nReason: %s".formatted(assignedBy, assignedAt, reason);
+
+        return new AssignmentMetadata(
+                ValidationUtils.normalizeString(assignedBy),
+                assignedAt.trim(),
+                ValidationUtils.normalizeString(reason)
+        );
+    }
+
+    public String format() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Assigned by ").append(assignedBy).append(" at ").append(assignedAt);
+        if (reason != null && !reason.trim().isEmpty()) {
+            sb.append("\nReason: ").append(reason);
+        } else {
+            sb.append(" (no reason provided)");
+        }
+        return sb.toString();
     }
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-16T14:57:24.212Z" hostname="localhost.localdomain" time="0.307">
+<testsuite name="org.example.CommandTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-20T14:56:39.437Z" hostname="localhost.localdomain" time="0.29">
   <properties/>
-  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.064"/>
+  <testcase name="testHasCommand()" classname="org.example.CommandTest" time="0.063"/>
   <testcase name="testUserListCommand()" classname="org.example.CommandTest" time="0.014"/>
-  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.034"/>
-  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.009"/>
-  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.011"/>
-  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.019"/>
-  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.005"/>
-  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.004"/>
-  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.047"/>
-  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.006"/>
-  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.008"/>
-  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.011"/>
-  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.013"/>
-  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.03"/>
+  <testcase name="testPrintHelp()" classname="org.example.CommandTest" time="0.031"/>
+  <testcase name="testCommandCaseInsensitive()" classname="org.example.CommandTest" time="0.004"/>
+  <testcase name="testParseAndExecuteUnknownCommand()" classname="org.example.CommandTest" time="0.012"/>
+  <testcase name="testPermissionsUserCommand()" classname="org.example.CommandTest" time="0.012"/>
+  <testcase name="testRegisterCommandNullName()" classname="org.example.CommandTest" time="0.017"/>
+  <testcase name="testRegisterCommand()" classname="org.example.CommandTest" time="0.015"/>
+  <testcase name="testStatsCommand()" classname="org.example.CommandTest" time="0.036"/>
+  <testcase name="testRegisterCommandNullCommand()" classname="org.example.CommandTest" time="0.011"/>
+  <testcase name="testParseAndExecuteEmptyInput()" classname="org.example.CommandTest" time="0.012"/>
+  <testcase name="testRoleListCommand()" classname="org.example.CommandTest" time="0.014"/>
+  <testcase name="testAssignmentListCommand()" classname="org.example.CommandTest" time="0.008"/>
+  <testcase name="testHelpCommand()" classname="org.example.CommandTest" time="0.009"/>
   <system-out><![CDATA[=== Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===
@@ -213,7 +213,7 @@ Admin                7               role_1
 === Назначения ===
 User            Role                 Type            Status     Assigned At         
 ================================================================================
-admin           Admin                PERMANENT       ACTIVE     2026-03-16 21:57:24 
+admin           Admin                PERMANENT       ACTIVE     2026-03-20 21:56:39 
 === Инициализация RBAC-системы ===
 Система инициализирована успешно!
 === Статистика RBAC-системы ===

@@ -32,19 +32,20 @@ class MainTest {
         Set<String> usedNames = (Set<String>) field.get(null);
         usedNames.clear();
 
-        // Теперь создаём объекты
+        // Очистка счётчика (опционально)
+        Field counterField = Role.class.getDeclaredField("counter");
+        counterField.setAccessible(true);
+        counterField.setLong(null, 1);
+
+        // Инициализация объектов с валидными данными
         readUsers = new RecPermission("read", "Users", "Позволяет читать пользователей");
         writeReports = new RecPermission("write", "REPORTS", "Позволяет создавать отчёты");
-
         adminRole = new Role("Administrator", "Full system access");
         adminRole.addPermission(readUsers);
         adminRole.addPermission(writeReports);
-
         userRole = new Role("User", "Basic access");
-
         alice = RecUser.validate("alice", "Alice Smith", "alice@example.com");
         bob = RecUser.validate("bob_dev", "Bob Developer", "bob@example.com");
-
         metaAdmin = AssignmentMetadata.now("admin", "test");
         metaBob = AssignmentMetadata.now("sec", "test");
     }

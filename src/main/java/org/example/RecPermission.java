@@ -1,24 +1,22 @@
 package org.example;
 
-public record RecPermission (String name, String resource, String description){
+public record RecPermission(String name, String resource, String description) {
 
     public RecPermission(String name, String resource, String description) {
-        this.name = name.toUpperCase();
-        this.resource = resource.toLowerCase();
-        this.description = description;
+        // Валидация через ValidationUtils
+        ValidationUtils.requireNonEmpty(name, "Имя права");
+        ValidationUtils.requireNonEmpty(resource, "Ресурс");
+        ValidationUtils.requireNonEmpty(description, "Описание");
 
-        if (this.name == null || this.name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя права не может быть пустым.");
+        // Проверка: имя права не должно содержать пробелов
+        if (name.contains(" ")) {
+            throw new IllegalArgumentException("Имя права не должно содержать пробелов");
         }
-        if (this.resource == null || this.resource.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ресурс не может быть пустым.");
-        }
-        if (this.description == null || this.description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Описание не может быть пустым.");
-        }
-        if (this.name.contains(" ")) {
-            throw new IllegalArgumentException("Имя права не должно содержать пробелов.");
-        }
+
+        // Нормализация и сохранение
+        this.name = ValidationUtils.normalizeStringUpper(name);
+        this.resource = ValidationUtils.normalizeStringLower(resource);
+        this.description = ValidationUtils.normalizeString(description);
     }
 
     // Форматированный вывод
@@ -26,8 +24,12 @@ public record RecPermission (String name, String resource, String description){
         return "%s on %s: %s".formatted(name, resource, description);
     }
 
-    // Поиск по паттернам
+    // Поиск по паттернам (регистронезависимый)
     public boolean matches(String namePattern, String resourcePattern) {
-        return name.contains(namePattern.toUpperCase()) && resource.contains(resourcePattern.toLowerCase());
+        if (namePattern == null || resourcePattern == null) {
+            return false;
+        }
+        return name.contains(ValidationUtils.normalizeStringUpper(namePattern)) &&
+                resource.contains(ValidationUtils.normalizeStringLower(resourcePattern));
     }
 }

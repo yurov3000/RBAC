@@ -5,11 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class TemporaryAssignment extends AbstractRoleAssignment {
-    private String expiresAt; // в формате "yyyy-MM-dd HH:mm" или "yyyy-MM-dd"
+    private String expiresAt;
     private boolean autoRenew = false;
 
-    // Формат по умолчанию — совместим с AssignmentMetadata
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    // Формат должен совпадать с AssignmentMetadata для совместимости
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public TemporaryAssignment(RecUser user, Role role, AssignmentMetadata metadata, String expiresAt) {
         super(user, role, metadata);
@@ -17,19 +17,22 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
             throw new IllegalArgumentException("Дата окончания не может быть пустой");
         }
         this.expiresAt = expiresAt.trim();
-        validateDateFormat(this.expiresAt); // опциональная проверка
+        validateDateFormat(this.expiresAt);
     }
 
-    // Вспомогательный метод для проверки формата (необязательный, но полезен)
     private void validateDateFormat(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            throw new IllegalArgumentException("Дата не может быть пустой");
+        }
         try {
-            if (dateStr.length() == 10) {
-                LocalDateTime.parse(dateStr + " 00:00", FORMATTER);
-            } else {
-                LocalDateTime.parse(dateStr, FORMATTER);
-            }
+            // Нормализуем и пытаемся распарсить
+            LocalDateTime.parse(normalizeDateTime(dateStr), FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Некорректный формат даты: " + dateStr + ". Ожидается 'yyyy-MM-dd' или 'yyyy-MM-dd HH:mm'");
+            throw new IllegalArgumentException(
+                    "Некорректный формат даты: " + dateStr +
+                            ". Ожидается 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm' или 'yyyy-MM-dd HH:mm:ss'",
+                    e
+            );
         }
     }
 
@@ -38,42 +41,47 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
         return "TEMPORARY";
     }
 
-    // Основной метод: проверка активности с передачей текущего времени (для тестирования)
     public boolean isActive(String now) {
         if (now == null || now.trim().isEmpty()) {
             throw new IllegalArgumentException("Текущая дата не может быть пустой");
         }
-        // Приведение к одинаковому формату (добавляем время, если его нет)
         String normalizedNow = normalizeDateTime(now.trim());
         String normalizedExpires = normalizeDateTime(this.expiresAt);
-
+        // Лексикографическое сравнение работает для ISO-подобных форматов
         return normalizedNow.compareTo(normalizedExpires) <= 0;
     }
 
-    // Удобный метод без параметров — использует текущее системное время
     @Override
     public boolean isActive() {
         String now = LocalDateTime.now().format(FORMATTER);
         return isActive(now);
     }
 
-    // Нормализует дату до формата "yyyy-MM-dd HH:mm"
     private String normalizeDateTime(String dateTime) {
-        if (dateTime.length() == 10) {
-            return dateTime + " 00:00";
-        } else if (dateTime.length() == 16) {
-            return dateTime;
+        if (dateTime == null || dateTime.trim().isEmpty()) {
+            throw new IllegalArgumentException("Дата не может быть пустой");
+        }
+        String dt = dateTime.trim();
+
+        // Поддерживаем три формата входных данных
+        if (dt.length() == 10) { // yyyy-MM-dd
+            return dt + " 00:00:00";
+        } else if (dt.length() == 16) { // yyyy-MM-dd HH:mm
+            return dt + ":00";
+        } else if (dt.length() == 19) { // yyyy-MM-dd HH:mm:ss
+            return dt;
         } else {
-            throw new IllegalArgumentException("Неподдерживаемый формат даты: " + dateTime);
+            throw new IllegalArgumentException(
+                    "Неподдерживаемый формат даты: " + dateTime +
+                            ". Ожидается 'yyyy-MM-dd', 'yyyy-MM-dd HH:mm' или 'yyyy-MM-dd HH:mm:ss'"
+            );
         }
     }
 
-    // Проверка, истёк ли срок
     public boolean isExpired() {
         return !isActive();
     }
 
-    // Продление срока действия
     public void extend(String newExpirationDate) {
         if (newExpirationDate == null || newExpirationDate.trim().isEmpty()) {
             throw new IllegalArgumentException("Новая дата окончания не может быть пустой");
@@ -82,7 +90,6 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
         validateDateFormat(this.expiresAt);
     }
 
-    // Геттеры
     public String getExpiresAt() {
         return expiresAt;
     }
@@ -95,27 +102,47 @@ public class TemporaryAssignment extends AbstractRoleAssignment {
         this.autoRenew = autoRenew;
     }
 
-    // Опционально: оставшееся время (упрощённо — только дни)
     public String getTimeRemaining() {
         try {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expire = LocalDateTime.parse(normalizeDateTime(expiresAt), FORMATTER);
+
             if (!isActive()) {
                 return "expired";
             }
-            long days = java.time.temporal.ChronoUnit.DAYS.between(now.toLocalDate(), expire.toLocalDate());
-            return days + " day(s) left";
+
+            long days = java.time.temporal.ChronoUnit.DAYS.between(now, expire);
+            long hours = java.time.temporal.ChronoUnit.HOURS.between(now, expire) % 24;
+
+            if (days > 0) {
+                return days + " day(s) left";
+            } else if (hours > 0) {
+                return hours + " hour(s) left";
+            } else {
+                return "less than 1 hour left";
+            }
         } catch (Exception e) {
             return "unknown";
         }
     }
 
-    // Переопределённый summary() с информацией об истечении
     @Override
     public String summary() {
-        String base = super.summary(); // вызывает summary() из AbstractRoleAssignment
-        String activeStatus = isActive() ? "ACTIVE" : "EXPIRED";
-        return base.replace("Status: " + (isActive() ? "ACTIVE" : "INACTIVE"),
-                "Status: " + activeStatus + "\nExpires at: " + expiresAt);
+        String status = isActive() ? "ACTIVE" : "EXPIRED";
+        String reasonLine = (metadata().reason() != null && !metadata().reason().trim().isEmpty())
+                ? "\nReason: " + metadata().reason()
+                : "";
+
+        return String.format(
+                "[%s] %s assigned to %s by %s at %s%s\nStatus: %s\nExpires at: %s",
+                assignmentType(),
+                role().getName(),
+                user().username(),
+                metadata().assignedBy(),
+                metadata().assignedAt(),
+                reasonLine,
+                status,
+                expiresAt
+        );
     }
 }
