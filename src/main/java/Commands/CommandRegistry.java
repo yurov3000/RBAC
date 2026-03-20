@@ -20,20 +20,27 @@ public class CommandRegistry {
     // === КОМАНДЫ УПРАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯМИ ===
 
     private static void registerUserCommands(CommandParser parser, RBACSystem system) {
-        // user-list
+        // user-list с форматированием через FormatUtils
         parser.registerCommand("user-list", "Вывести список всех пользователей", (scanner, sys) -> {
             UserManager um = sys.getUserManager();
-            System.out.println("\n=== Пользователи ===");
-            if (um.count() == 0) {
-                System.out.println("Пользователи не найдены");
+            List<RecUser> users = um.findAll();
+
+            if (users.isEmpty()) {
+                System.out.println(FormatUtils.formatBox("Пользователи не найдены"));
                 return;
             }
-            System.out.printf("%-20s %-25s %-30s%n", "Username", "Full Name", "Email");
-            System.out.println("=".repeat(75));
-            for (RecUser user : um.findAll()) {
-                System.out.printf("%-20s %-25s %-30s%n", user.username(), user.fullname(), user.email());
-            }
-            System.out.println("Всего: " + um.count());
+
+            String[] headers = {"Username", "Full Name", "Email"};
+            List<String[]> rows = users.stream()
+                    .map(u -> new String[]{
+                            u.username(),
+                            FormatUtils.truncate(u.fullname(), 25),
+                            FormatUtils.truncate(u.email(), 30)
+                    })
+                    .collect(Collectors.toList());
+
+            System.out.println(FormatUtils.formatTable(headers, rows));
+            System.out.println("Всего: " + users.size());
         });
 
         // user-create
@@ -185,19 +192,26 @@ public class CommandRegistry {
     // === КОМАНДЫ УПРАВЛЕНИЯ РОЛЯМИ ===
 
     private static void registerRoleCommands(CommandParser parser, RBACSystem system) {
-        // role-list
+        // role-list с форматированием
         parser.registerCommand("role-list", "Вывести список всех ролей", (scanner, sys) -> {
-            System.out.println("\n=== Роли ===");
             RoleManager rm = sys.getRoleManager();
-            if (rm.count() == 0) {
-                System.out.println("Роли не найдены");
+            List<Role> roles = rm.findAll();
+
+            if (roles.isEmpty()) {
+                System.out.println(FormatUtils.formatBox("Роли не найдены"));
                 return;
             }
-            System.out.printf("%-20s %-15s %-10s%n", "Name", "Permissions", "ID");
-            System.out.println("=".repeat(45));
-            for (Role role : rm.findAll()) {
-                System.out.printf("%-20s %-15d %-10s%n", role.getName(), role.getPermissions().size(), role.getId());
-            }
+
+            String[] headers = {"Name", "Description", "Permissions"};
+            List<String[]> rows = roles.stream()
+                    .map(r -> new String[]{
+                            r.getName(),
+                            FormatUtils.truncate(r.getDescription(), 30),
+                            String.valueOf(r.getPermissions().size())
+                    })
+                    .collect(Collectors.toList());
+
+            System.out.println(FormatUtils.formatTable(headers, rows));
         });
 
         // role-create
