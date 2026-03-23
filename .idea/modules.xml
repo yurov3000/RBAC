@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RBAC.iml" filepath="$PROJECT_DIR$/.idea/modules/RBAC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RBAC.main.iml" filepath="$PROJECT_DIR$/.idea/modules/RBAC.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RBAC.test.iml" filepath="$PROJECT_DIR$/.idea/modules/RBAC.test.iml" />
+    </modules>
+  </component>
+</project>
