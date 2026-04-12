@@ -218,5 +218,12 @@ public class AssignmentManager implements Repository<RoleAssignment> {
 
         ((TemporaryAssignment) assignment).extend(newExpirationDate);
     }
+
+    public List<RoleAssignment> findByFilterParallel(AssignmentFilter filter) {
+        if (filter == null) throw new IllegalArgumentException("Filter is null");
+        return assignments.values().parallelStream()
+                .filter(filter::test)
+                .collect(Collectors.toList());
+    }
 }
 

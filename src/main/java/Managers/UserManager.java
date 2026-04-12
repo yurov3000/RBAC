@@ -131,4 +131,14 @@ public class UserManager implements Repository<RecUser> {
         }
         return findByUsername(username).orElse(null);
     }
+
+    public List<RecUser> findByFilterParallel(UserFilter filter) {
+        if (filter == null) {
+            throw new IllegalArgumentException("Фильтр не может быть null");
+        }
+        // Используем parallelStream для параллельной обработки списка пользователей
+        return users.values().parallelStream()
+                .filter(filter::test)
+                .collect(Collectors.toList());
+    }
 }

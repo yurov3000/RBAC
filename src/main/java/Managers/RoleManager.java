@@ -171,4 +171,15 @@ public class RoleManager implements Repository<Role> {
         // Если у вас есть метод, возвращающий Optional<Role>:
         return findByName(name).orElse(null);
     }
+
+    public List<Role> findByFilterParallel(RoleFilter filter) {
+        if (filter == null) {
+            throw new IllegalArgumentException("Фильтр не может быть null");
+        }
+        // Параллельная обработка списка ролей;
+        return rolesById.values().parallelStream()
+                .filter(filter::test)
+                .collect(Collectors.toList());
+    }
+
 }
