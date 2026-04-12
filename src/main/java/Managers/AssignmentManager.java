@@ -5,14 +5,15 @@ import org.example.*;
 import Filters.AssignmentFilter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class AssignmentManager implements Repository<RoleAssignment> {
     // Основное хранилище назначений (ключ — assignmentId)
-    private final Map<String, RoleAssignment> assignments = new HashMap<>();
+    private final Map<String, RoleAssignment> assignments = new ConcurrentHashMap<>();
 
     // Для отслеживания активных назначений одной роли пользователю (ключ: username_roleId)
-    private final Set<String> activeAssignmentsKeys = new HashSet<>();
+    private final Set<String> activeAssignmentsKeys = ConcurrentHashMap.newKeySet();
 
     @Override
     public void add(RoleAssignment assignment) {
@@ -82,9 +83,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
         activeAssignmentsKeys.clear();
     }
 
-    /**
-     * Найти назначения по пользователю
-     */
     public List<RoleAssignment> findByUser(RecUser user) {
         if (user == null) {
             throw new IllegalArgumentException("Пользователь не может быть null");
@@ -95,9 +93,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Найти назначения по роли
-     */
     public List<RoleAssignment> findByRole(Role role) {
         if (role == null) {
             throw new IllegalArgumentException("Роль не может быть null");
@@ -108,9 +103,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Найти назначения по фильтру
-     */
     public List<RoleAssignment> findByFilter(AssignmentFilter filter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -121,9 +113,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Найти все назначения с фильтрацией и сортировкой
-     */
     public List<RoleAssignment> findAll(AssignmentFilter filter, Comparator<RoleAssignment> sorter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -138,18 +127,12 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Получить активные назначения
-     */
     public List<RoleAssignment> getActiveAssignments() {
         return assignments.values().stream()
                 .filter(RoleAssignment::isActive)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Получить просроченные временные назначения
-     */
     public List<RoleAssignment> getExpiredAssignments() {
         return assignments.values().stream()
                 .filter(assignment -> assignment instanceof TemporaryAssignment)
@@ -157,9 +140,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Проверить, имеет ли пользователь указанную роль
-     */
     public boolean userHasRole(RecUser user, Role role) {
         if (user == null || role == null) {
             return false;
@@ -172,9 +152,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 );
     }
 
-    /**
-     * Проверить, имеет ли пользователь указанное право доступа
-     */
     public boolean userHasPermission(RecUser user, String permissionName, String resource) {
         if (user == null || permissionName == null || resource == null) {
             return false;
@@ -188,9 +165,7 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 );
     }
 
-    /**
-     * Получить все права пользователя из всех его ролей
-     */
+
     public Set<RecPermission> getUserPermissions(RecUser user) {
         if (user == null) {
             throw new IllegalArgumentException("Пользователь не может быть null");
@@ -203,9 +178,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Отозвать назначение по ID
-     */
     public void revokeAssignment(String assignmentId) {
         if (assignmentId == null || assignmentId.trim().isEmpty()) {
             throw new IllegalArgumentException("ID назначения не может быть пустым");
@@ -226,9 +198,6 @@ public class AssignmentManager implements Repository<RoleAssignment> {
         activeAssignmentsKeys.remove(key);
     }
 
-    /**
-     * Продлить временное назначение
-     */
     public void extendTemporaryAssignment(String assignmentId, String newExpirationDate) {
         if (assignmentId == null || assignmentId.trim().isEmpty()) {
             throw new IllegalArgumentException("ID назначения не может быть пустым");

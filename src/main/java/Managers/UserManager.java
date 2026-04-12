@@ -4,11 +4,12 @@ import Filters.UserFilter;
 import org.example.RecUser;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class UserManager implements Repository<RecUser> {
     // Внутреннее хранилище пользователей (ключ — username)
-    private final Map<String, RecUser> users = new HashMap<>();
+    private final Map<String, RecUser> users = new ConcurrentHashMap<>();
 
     @Override
     public void add(RecUser user) {

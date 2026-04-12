@@ -5,13 +5,14 @@ import org.example.RecPermission;
 import org.example.Role;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class RoleManager implements Repository<Role> {
     // Основное хранилище ролей (ключ — id роли)
-    private final Map<String, Role> rolesById = new HashMap<>();
+    private final Map<String, Role> rolesById = new ConcurrentHashMap<>();
     // Индекс для быстрого поиска по имени роли (ключ — имя роли)
-    private final Map<String, Role> rolesByName = new HashMap<>();
+    private final Map<String, Role> rolesByName = new ConcurrentHashMap<>();
 
     @Override
     public void add(Role role) {
@@ -73,9 +74,6 @@ public class RoleManager implements Repository<Role> {
         rolesByName.clear();
     }
 
-    /**
-     * Найти роль по имени
-     */
     public Optional<Role> findByName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя роли не может быть пустым");
@@ -83,9 +81,6 @@ public class RoleManager implements Repository<Role> {
         return Optional.ofNullable(rolesByName.get(name));
     }
 
-    /**
-     * Найти роли по фильтру
-     */
     public List<Role> findByFilter(RoleFilter filter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -96,9 +91,6 @@ public class RoleManager implements Repository<Role> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Найти все роли с фильтрацией и сортировкой
-     */
     public List<Role> findAll(RoleFilter filter, Comparator<Role> sorter) {
         if (filter == null) {
             throw new IllegalArgumentException("Фильтр не может быть null");
@@ -113,9 +105,6 @@ public class RoleManager implements Repository<Role> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Проверить существование роли по имени
-     */
     public boolean exists(String name) {
         if (name == null || name.trim().isEmpty()) {
             return false;
@@ -123,9 +112,6 @@ public class RoleManager implements Repository<Role> {
         return rolesByName.containsKey(name);
     }
 
-    /**
-     * Добавить право доступа к роли
-     */
     public void addPermissionToRole(String roleName, RecPermission permission) {
         if (roleName == null || roleName.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя роли не может быть пустым");
@@ -142,9 +128,6 @@ public class RoleManager implements Repository<Role> {
         role.addPermission(permission);
     }
 
-    /**
-     * Удалить право доступа из роли
-     */
     public void removePermissionFromRole(String roleName, RecPermission permission) {
         if (roleName == null || roleName.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя роли не может быть пустым");
@@ -161,9 +144,6 @@ public class RoleManager implements Repository<Role> {
         role.removePermission(permission);
     }
 
-    /**
-     * Найти роли, содержащие указанное право доступа
-     */
     public List<Role> findRolesWithPermission(String permissionName, String resource) {
         if (permissionName == null || permissionName.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя права не может быть пустым");
