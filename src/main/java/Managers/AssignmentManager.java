@@ -21,30 +21,25 @@ public class AssignmentManager implements Repository<RoleAssignment> {
             throw new IllegalArgumentException("Назначение не может быть null");
         }
 
-        String assignmentId = assignment.assignmentId();
         RecUser user = assignment.user();
         Role role = assignment.role();
 
-        // Проверка существования пользователя и роли
-        if (user == null) {
-            throw new IllegalArgumentException("Пользователь не может быть null");
-        }
-        if (role == null) {
-            throw new IllegalArgumentException("Роль не может быть null");
-        }
+        if (user == null) throw new IllegalArgumentException("Пользователь не может быть null");
+        if (role == null) throw new IllegalArgumentException("Роль не может быть null");
 
-        // Проверка на дублирование активного назначения
         String key = user.username() + "_" + role.getId();
-        if (activeAssignmentsKeys.contains(key) && assignment.isActive()) {
-            throw new IllegalArgumentException(
-                    "Пользователь '" + user.username() + "' уже имеет активное назначение роли '" +
-                            role.getName() + "'"
-            );
-        }
 
-        assignments.put(assignmentId, assignment);
-        if (assignment.isActive()) {
-            activeAssignmentsKeys.add(key);
+        // 🔒 Атомарная проверка и добавление
+        synchronized (this) {
+            if (activeAssignmentsKeys.contains(key) && assignment.isActive()) {
+                throw new IllegalArgumentException(
+                        "Пользователь '" + user.username() + "' уже имеет активное назначение роли '" +
+                                role.getName() + "'");
+            }
+            assignments.put(assignment.assignmentId(), assignment);
+            if (assignment.isActive()) {
+                activeAssignmentsKeys.add(key);
+            }
         }
     }
 

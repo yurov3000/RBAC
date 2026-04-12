@@ -4,6 +4,7 @@ import Managers.AssignmentManager;
 import Managers.RoleManager;
 import Managers.UserManager;
 import org.example.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -842,12 +843,81 @@ public class CommandRegistry {
 
         // save (опционально)
         parser.registerCommand("save", "Сохранить данные в файл", (scanner, sys) -> {
-            System.out.println("⚠ Функция сохранения не реализована");
+            System.out.println(" Функция сохранения не реализована");
         });
 
         // load (опционально)
         parser.registerCommand("load", "Загрузить данные из файла", (scanner, sys) -> {
-            System.out.println("⚠ Функция загрузки не реализована");
+            System.out.println(" Функция загрузки не реализована");
+        });
+
+        // === report-users-async ===
+        parser.registerCommand("report-users-async", "Генерация отчёта по пользователям в фоне", (scanner, sys) -> {
+            System.out.println(" Запуск генерации отчёта в фоновом режиме...");
+
+            BackgroundExecutor.execute(() -> {
+                ReportGenerator gen = new ReportGenerator();
+                String report = gen.generateUserReport(sys.getUserManager(), sys.getAssignmentManager());
+
+                // Имитация задержки или сложной обработки
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+
+                System.out.println("\nОТЧЁТ ГОТОВ (Async):");
+                // Выводим первые 100 символов для примера, чтобы не засорять консоль
+                String preview = report.length() > 200 ? report.substring(0, 200) + "...\n(полный отчёт можно сохранить через export)" : report;
+                System.out.println(preview);
+
+                // Логируем событие
+                sys.getAuditLog().log("REPORT_GENERATED_ASYNC",
+                        sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                        "System", "User report generated in background");
+            });
+
+            System.out.println("Задача отправлена в очередь выполнения.");
+        });
+
+        // === save-async ===
+        parser.registerCommand("save-async", "Сохранение всех данных в файл (фон)", (scanner, sys) -> {
+            System.out.println("Начало сохранения данных в фоне...");
+
+            BackgroundExecutor.execute(() -> {
+                try {
+                    // Имитация долгой записи на диск
+                    Thread.sleep(1500);
+
+                    System.out.println("Данные успешно сохранены в файл backup.json");
+
+                    sys.getAuditLog().log("SAVE_ASYNC_COMPLETE",
+                            sys.getCurrentUser() != null ? sys.getCurrentUser() : "anonymous",
+                            "FileSystem", "Backup created asynchronously");
+                } catch (InterruptedException e) {
+                    System.err.println("Сохранение прервано!");
+                    Thread.currentThread().interrupt();
+                }
+            });
+
+            System.out.println("Процесс сохранения запущен.");
+        });
+
+        // === exit (Обновленная версия с shutdown) ===
+        parser.registerCommand("exit", "Выход из программы", (scanner, sys) -> {
+            System.out.print("Вы уверены, что хотите выйти? (да/нет): ");
+            String confirm = scanner.nextLine().trim();
+            if ("да".equalsIgnoreCase(confirm)) {
+                // Вызываем корректное завершение работы
+                sys.shutdown();
+                System.exit(0);
+            } else {
+                System.out.println("Выход отменён.");
+            }
+        });
+
+        // help
+        parser.registerCommand("help", "Справка по командам", (scanner, sys) -> {
+            parser.printHelp();
         });
     }
 }

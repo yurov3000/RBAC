@@ -121,4 +121,11 @@ public class RBACSystem {
         sb.append("Текущий пользователь: ").append(currentUser != null ? currentUser : "не авторизован").append("\n");
         return sb.toString();
     }
+
+    //Корректное завершение работы системы (остановка фоновых потоков)
+    public void shutdown() {
+        System.out.println("\nОстановка фоновых задач...");
+        BackgroundExecutor.shutdown();
+        System.out.println("Система остановлена.");
+    }
 }

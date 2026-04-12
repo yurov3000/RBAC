@@ -17,14 +17,14 @@ public class UserManager implements Repository<RecUser> {
             throw new IllegalArgumentException("Пользователь не может быть null");
         }
 
-        String username = user.username();
-        if (users.containsKey(username)) {
-            throw new IllegalArgumentException("Пользователь с username '" + username + "' уже существует");
+        synchronized (this) {
+            String username = user.username();
+            if (users.containsKey(username)) {
+                throw new IllegalArgumentException("Пользователь с username '" + username + "' уже существует");
+            }
+            RecUser.validate(username, user.fullname(), user.email());
+            users.put(username, user);
         }
-
-        // Валидация данных перед добавлением
-        RecUser.validate(username, user.fullname(), user.email());
-        users.put(username, user);
     }
 
     @Override

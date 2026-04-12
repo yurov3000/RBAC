@@ -20,19 +20,21 @@ public class RoleManager implements Repository<Role> {
             throw new IllegalArgumentException("Роль не может быть null");
         }
 
-        String roleId = role.getId();
-        String roleName = role.getName();
+        // Синхронизируем всю операцию для атомарности
+        synchronized (this) {
+            String roleId = role.getId();
+            String roleName = role.getName();
 
-        // Проверка уникальности id и имени роли
-        if (rolesById.containsKey(roleId)) {
-            throw new IllegalArgumentException("Роль с id '" + roleId + "' уже существует");
-        }
-        if (rolesByName.containsKey(roleName)) {
-            throw new IllegalArgumentException("Роль с именем '" + roleName + "' уже существует");
-        }
+            if (rolesById.containsKey(roleId)) {
+                throw new IllegalArgumentException("Роль с id '" + roleId + "' уже существует");
+            }
+            if (rolesByName.containsKey(roleName)) {
+                throw new IllegalArgumentException("Роль с именем '" + roleName + "' уже существует");
+            }
 
-        rolesById.put(roleId, role);
-        rolesByName.put(roleName, role);
+            rolesById.put(roleId, role);
+            rolesByName.put(roleName, role);
+        }
     }
 
     @Override

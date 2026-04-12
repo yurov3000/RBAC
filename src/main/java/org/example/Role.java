@@ -1,18 +1,19 @@
 package org.example;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Role {
-    private static final Set<String> usedNames = new HashSet<>();
-    private static long counter = 1;
+    private static final Set<String> usedNames = ConcurrentHashMap.newKeySet();
+    private static final AtomicLong counter = new AtomicLong(1);
 
     private String id;
     private String name;
     private String description;
-    private Set<RecPermission> permissions = new HashSet<>();
+    private final Set<RecPermission> permissions = ConcurrentHashMap.newKeySet();
 
     public Role(String name, String description) {
         if (name == null || name.trim().isEmpty()) {
@@ -21,14 +22,13 @@ public class Role {
         if (description == null || description.trim().isEmpty()) {
             throw new IllegalArgumentException("Описание роли не может быть пустым.");
         }
-        if (usedNames.contains(name)) {
+        if (!usedNames.add(name)) {
             throw new IllegalArgumentException("Роль с названием '" + name + "' уже существует.");
         }
 
-        this.id = "role_" + counter++; // или: UUID.randomUUID().toString()
+        this.id = "role_" + counter.getAndIncrement();
         this.name = name;
         this.description = description;
-        usedNames.add(name);
     }
 
     // Геттеры
@@ -79,7 +79,6 @@ public class Role {
         return Collections.unmodifiableSet(permissions);
     }
 
-    // equals и hashCode по id
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,13 +92,11 @@ public class Role {
         return Objects.hash(id);
     }
 
-    // toString
     @Override
     public String toString() {
         return "Role{id='" + id + "', name='" + name + "', description='" + description + "', permissions=" + permissions.size() + "}";
     }
 
-    // Форматированный вывод
     public String format() {
         StringBuilder sb = new StringBuilder();
         sb.append("Role: ").append(name).append(" [ID: ").append(id).append("]\n");
@@ -108,7 +105,7 @@ public class Role {
         for (RecPermission p : permissions) {
             sb.append("- ").append(p.format()).append("\n");
         }
-        return sb.toString().trim(); // убираем последний \n
+        return sb.toString().trim();
     }
 
 }

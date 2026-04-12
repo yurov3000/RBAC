@@ -1,9 +1,10 @@
 package org.example;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractRoleAssignment implements RoleAssignment {
-    private static long counter = 1;
+    private static AtomicLong counter = new AtomicLong(1);
 
     protected final String assignmentId;
     protected final RecUser user;
@@ -21,7 +22,7 @@ public abstract class AbstractRoleAssignment implements RoleAssignment {
             throw new IllegalArgumentException("Метаданные не могут быть null");
         }
 
-        this.assignmentId = "assign_" + counter++;
+        this.assignmentId = "assign_" + counter.getAndIncrement();
         this.user = user;
         this.role = role;
         this.metadata = metadata;
