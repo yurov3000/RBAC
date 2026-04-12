@@ -902,11 +902,12 @@ public class CommandRegistry {
             System.out.println("Процесс сохранения запущен.");
         });
 
-        // === exit (Обновленная версия с shutdown) ===
+        // exit
         parser.registerCommand("exit", "Выход из программы", (scanner, sys) -> {
             System.out.print("Вы уверены, что хотите выйти? (да/нет): ");
             String confirm = scanner.nextLine().trim();
             if ("да".equalsIgnoreCase(confirm)) {
+                System.out.println("Выход из системы...");
                 // Вызываем корректное завершение работы
                 sys.shutdown();
                 System.exit(0);

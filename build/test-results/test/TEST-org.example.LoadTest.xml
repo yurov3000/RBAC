@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.LoadTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-12T17:32:08.770Z" hostname="localhost.localdomain" time="0.203">
-  <properties/>
-  <testcase name="testConcurrencyStress()" classname="org.example.LoadTest" time="0.203"/>
-  <system-out><![CDATA[Нагрузочный тест пройден за 153 мс
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
