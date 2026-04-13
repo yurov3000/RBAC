@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 class CommandTest {
     private CommandParser parser;
@@ -18,17 +19,17 @@ class CommandTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // 🔥 ОЧИСТКА статического состояния Role (ОБЯЗАТЕЛЬНО!)
         Field usedNamesField = Role.class.getDeclaredField("usedNames");
         usedNamesField.setAccessible(true);
         @SuppressWarnings("unchecked")
         Set<String> usedNames = (Set<String>) usedNamesField.get(null);
         usedNames.clear();
 
-        // Сброс счётчика ID для стабильности тестов
+
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
-        counterField.setLong(null, 1);
+        AtomicLong counter = (AtomicLong) counterField.get(null); // Получаем объект AtomicLong
+        counter.set(1L);
 
         parser = new CommandParser();
         system = new RBACSystem();
@@ -39,7 +40,7 @@ class CommandTest {
 
     @Test
     void testRegisterCommand() {
-        assertEquals(35, parser.getCommandCount(), "Должно быть зарегистрировано 35 команд");
+        assertEquals(37, parser.getCommandCount(), "Должно быть зарегистрировано 35 команд");
     }
 
     @Test

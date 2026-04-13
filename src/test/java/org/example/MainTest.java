@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import Managers.AssignmentManager;
 import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicLong;
 
 class MainTest {
 
@@ -25,17 +26,16 @@ class MainTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Очистка статического состояния Role
-        Field field = Role.class.getDeclaredField("usedNames");
-        field.setAccessible(true);
+        Field usedNamesField = Role.class.getDeclaredField("usedNames");
+        usedNamesField.setAccessible(true);
         @SuppressWarnings("unchecked")
-        Set<String> usedNames = (Set<String>) field.get(null);
+        Set<String> usedNames = (Set<String>) usedNamesField.get(null);
         usedNames.clear();
 
-        // Очистка счётчика (опционально)
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
-        counterField.setLong(null, 1);
+        AtomicLong counter = (AtomicLong) counterField.get(null); // Получаем объект
+        counter.set(1); // Сбрасываем значение через метод AtomicLong
 
         // Инициализация объектов с валидными данными
         readUsers = new RecPermission("read", "Users", "Позволяет читать пользователей");

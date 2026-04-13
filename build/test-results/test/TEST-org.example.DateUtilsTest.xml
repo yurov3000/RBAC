@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.DateUtilsTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-04-13T02:52:10.221Z" hostname="localhost.localdomain" time="0.162">
+  <properties/>
+  <testcase name="testAddDaysForward()" classname="org.example.DateUtilsTest" time="0.057"/>
+  <testcase name="testFormatRelativeTimeYesterday()" classname="org.example.DateUtilsTest" time="0.016"/>
+  <testcase name="testIsValidDateTime()" classname="org.example.DateUtilsTest" time="0.005"/>
+  <testcase name="testGetCurrentDate()" classname="org.example.DateUtilsTest" time="0.002"/>
+  <testcase name="testAddDaysWithDateTime()" classname="org.example.DateUtilsTest" time="0.002"/>
+  <testcase name="testFormatRelativeTimeFuture()" classname="org.example.DateUtilsTest" time="0.007"/>
+  <testcase name="testIsValidDate()" classname="org.example.DateUtilsTest" time="0.005"/>
+  <testcase name="testIsBeforeNull()" classname="org.example.DateUtilsTest" time="0.006"/>
+  <testcase name="testIsBefore()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testFormatRelativeTimeInvalid()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testFormatRelativeTimeTomorrow()" classname="org.example.DateUtilsTest" time="0.002"/>
+  <testcase name="testFormatRelativeTimeToday()" classname="org.example.DateUtilsTest" time="0.003"/>
+  <testcase name="testAddDaysInvalidFormat()" classname="org.example.DateUtilsTest" time="0.009"/>
+  <testcase name="testFormatRelativeTimePast()" classname="org.example.DateUtilsTest" time="0.002"/>
+  <testcase name="testIsAfter()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testIsEqual()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testTemporaryAssignmentWithDateUtils()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testGetCurrentDateTime()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <testcase name="testAddDaysBackward()" classname="org.example.DateUtilsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

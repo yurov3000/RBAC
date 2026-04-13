@@ -9,6 +9,8 @@ import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandInputTest {
@@ -17,21 +19,20 @@ class CommandInputTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // 🔥 ОЧИСТКА статического состояния Role (ОБЯЗАТЕЛЬНО!)
         Field usedNamesField = Role.class.getDeclaredField("usedNames");
         usedNamesField.setAccessible(true);
         @SuppressWarnings("unchecked")
         Set<String> usedNames = (Set<String>) usedNamesField.get(null);
         usedNames.clear();
 
-        // Сброс счётчика ID для стабильности
         Field counterField = Role.class.getDeclaredField("counter");
         counterField.setAccessible(true);
-        counterField.setLong(null, 1);
+        AtomicLong counter = (AtomicLong) counterField.get(null);
+        counter.set(1L);
 
         parser = new CommandParser();
         system = new RBACSystem();
-        system.initialize();  // Теперь создаст "Admin" без ошибки
+        system.initialize();
         CommandRegistry.registerAllCommands(parser, system);
     }
 
